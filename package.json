@@ -1,7 +1,7 @@
 {
-  "name": "if-expression",
+  "name": "dolla-if",
   "version": "1.0.0",
-  "description": "A wrapper that allows if-else statements to be used as expressions",
+  "description": "A wrapper that allows if-else statements to be used as expressions, for vegetarians",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest"
