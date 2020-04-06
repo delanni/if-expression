@@ -1,6 +1,6 @@
 {
   "name": "dolla-if",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A wrapper that allows if-else statements to be used as expressions, for vegetarians",
   "main": "dist/index.js",
   "scripts": {
@@ -11,5 +11,7 @@
   "devDependencies": {
     "jest": "^24.9.0"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
 }
