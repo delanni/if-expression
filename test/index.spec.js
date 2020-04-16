@@ -1,4 +1,4 @@
-const {$if} = require('./src');
+const {$if} = require('../src');
 
 describe("$if expression", () => {
     it("returns the .then clause's value when condition is true", () => {
