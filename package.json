@@ -1,6 +1,6 @@
 {
   "name": "dolla-if",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "If-else statements to be used as expressions, for vegetarians, or otherwise",
   "keywords": [
     "if",
@@ -23,5 +23,7 @@
     "type": "git",
     "url": "https://github.com/delanni/if-expression.git"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
 }
