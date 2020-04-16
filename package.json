@@ -1,15 +1,27 @@
 {
   "name": "dolla-if",
-  "version": "1.0.0",
-  "description": "A wrapper that allows if-else statements to be used as expressions, for vegetarians",
+  "version": "1.0.1",
+  "description": "If-else statements to be used as expressions, for vegetarians, or otherwise",
+  "keywords": [
+    "if",
+    "expression",
+    "conditional",
+    "money",
+    "vegetarian"
+  ],
   "main": "dist/index.js",
+  "sideEffects": false,
   "scripts": {
     "test": "jest"
   },
   "author": "Alex Szabo (delanni.alex@gmail.com)",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "jest": "^24.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/delanni/if-expression.git"
   },
   "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
