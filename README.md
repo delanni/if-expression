@@ -27,7 +27,7 @@ console.log({myFriendsCallMe});
 ```
 
 It's especially useful when you're trying to use some inline react JSX, because those inline curlies only support expressions, so unless you want to do some IIFE ugliness:
-```javascript
+```jsx
 const RegularHeader = ({ dayOfTheWeek }) => {
     return (
         <div>
