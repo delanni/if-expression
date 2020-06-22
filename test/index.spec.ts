@@ -1,4 +1,5 @@
-const {$if} = require('../src');
+import {$if} from "../src";
+
 
 describe("$if expression", () => {
     it("returns the .then clause's value when condition is true", () => {
@@ -47,7 +48,7 @@ describe("$if with elseif clause", () => {
 
         let randomInt = Math.floor(Math.random() * 100) + 1;
 
-        let expressionValue = $if(true).then(originalReturnValue);
+        let expressionValue: any = $if(true).then(originalReturnValue);
 
         while (randomInt > 0) {
             randomInt -= 1;
@@ -70,9 +71,9 @@ describe("$if with elseif clause", () => {
 
         const firstTrueIndex = bitArray.indexOf(1);
 
-        let expressionValue = $if(false).then('boo');
+        let expressionValue: any = $if(false).then('boo');
 
-        for(var i = 0; i < bitArray.length; i++) {
+        for (let i = 0; i < bitArray.length; i++) {
             expressionValue = expressionValue.elseIf(bitArray[i] === 1).then(i);
         }
 

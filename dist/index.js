@@ -1,52 +1,48 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var ifExpression = function (condition) {
+    return makeIfStatement(condition);
+};
+var makeIfStatement = function (cond) {
     return {
-        then: thenExpression(condition)
-    }
+        then: function (thenValue) { return makeThenStatement(cond, thenValue); }
+    };
 };
-
-var fakeIfExpression = function (riggedValue) {
-    return function (_ignoredCondition) {
-        return {
-            then: fakeThenExpression(riggedValue)
+var makeThenStatement = function (cond, thenValue) {
+    return {
+        else: function (elseValue) {
+            if (cond) {
+                return thenValue;
+            }
+            else {
+                return elseValue;
+            }
+        },
+        elseIf: function (cond2) {
+            if (cond) {
+                return makeLoadedIfStatement(thenValue);
+            }
+            else {
+                return makeIfStatement(cond2);
+            }
         }
     };
 };
-
-var fakeThenExpression = function (riggedValue) {
-    return function (_ignoredThenValue) {
-        return {
-            else: fakeElseExpression(riggedValue),
-            elseIf: fakeIfExpression(riggedValue)
+var makeLoadedIfStatement = function (fixedValue) {
+    return {
+        then: function (ignoredThenValue) { return makeLoadedThenStatement(fixedValue); }
+    };
+};
+var makeLoadedThenStatement = function (fixedValue) {
+    return {
+        else: function (ignoredElseValue) {
+            return fixedValue;
+        },
+        elseIf: function (ignoredCond) {
+            return makeLoadedIfStatement(fixedValue);
         }
     };
 };
-
-var fakeElseExpression = function (riggedValue) {
-    return function (_ignoredElseValue) {
-        return riggedValue;
-    };
-};
-
-var thenExpression = function (condition) {
-    return function (positiveValue) {
-        return {
-            else: elseExpression(condition, positiveValue),
-            elseIf: !condition ? ifExpression : fakeIfExpression(positiveValue)
-        };
-    };
-};
-
-var elseExpression = function (aggregateCondition, aggregatePositiveValue) {
-    return function (negativeValue) {
-        if (!aggregateCondition) {
-            return negativeValue;
-        } else {
-            return aggregatePositiveValue;
-        }
-    };
-};
-
-module.exports = {
-    $if: ifExpression,
-    default: ifExpression
-};
+exports.default = ifExpression;
+exports.$if = ifExpression;
+//# sourceMappingURL=index.js.map
