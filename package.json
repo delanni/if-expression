@@ -4,6 +4,8 @@
   "description": "If-else statements to be used as expressions, for vegetarians, or otherwise",
   "keywords": [
     "if",
+    "functional",
+    "typescript",
     "expression",
     "conditional",
     "money",
@@ -36,5 +38,6 @@
   },
   "jest": {
     "preset": "ts-jest"
-  }
+  },
+  "containsMeat": false
 }

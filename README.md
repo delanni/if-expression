@@ -54,3 +54,5 @@ In this above example, only one of the branches gets executed, so you don't need
 ---
 
 And $if also supports types through [Typescript](http://typescriptlang.org/)! 
+
+<small>Contains no meat™!</small>
