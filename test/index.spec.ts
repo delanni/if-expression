@@ -1,5 +1,6 @@
 import {$if} from "../src";
 
+type Unit<T> = () => T;
 
 describe("$if expression", () => {
     it("returns the .then clause's value when condition is true", () => {
@@ -80,5 +81,137 @@ describe("$if with elseif clause", () => {
         expressionValue = expressionValue.else('boo');
 
         expect(expressionValue).toBe(firstTrueIndex);
+    });
+});
+
+describe("$if with delayed values", () => {
+    type A = 'valA';
+    type B = 'valB';
+    type C = 'valC';
+
+    let fnA: () => 'valA';
+    let fnB: () => 'valB';
+    let fnC: () => 'valC';
+
+    beforeEach(() => {
+        fnA = jest.fn(() => 'valA');
+        fnB = jest.fn(() => 'valB');
+        fnC = jest.fn(() => 'valC');
+    });
+
+    it('works on .thenDo()', () => {
+        const value: A | B = $if(true).thenDo(fnA).elseDo(fnB);
+
+        expect(value).toBe('valA');
+        expect(fnA).toBeCalledTimes(1);
+        expect(fnB).not.toBeCalled();
+    });
+
+
+    it('works on .elseDo()', () => {
+        const value: A | B = $if(false).thenDo(fnA).elseDo(fnB);
+
+        expect(value).toBe('valB');
+        expect(fnA).not.toBeCalled();
+        expect(fnB).toBeCalledTimes(1);
+    });
+
+    it('works on .elseIf.thenDo()', () => {
+        const value: A | B | C = $if(false).thenDo(fnA).elseIf(true).thenDo(fnB).elseDo(fnC);
+
+        expect(value).toBe('valB');
+        expect(fnA).not.toBeCalled();
+        expect(fnB).toBeCalledTimes(1);
+        expect(fnC).not.toBeCalled();
+    });
+
+    it('works on .elseIf.elseDo()', () => {
+        const value: A | B | C = $if(false).thenDo(fnA).elseIf(false).thenDo(fnB).elseDo(fnC);
+
+        expect(value).toBe('valC');
+        expect(fnA).not.toBeCalled();
+        expect(fnB).not.toBeCalled();
+        expect(fnC).toBeCalledTimes(1);
+    });
+
+    it(`doesn't bleed over to any further arrows`, () => {
+        const fnD: Unit<'valD'> = jest.fn(() => 'valD');
+        const fnE: Unit<'valE'> = jest.fn(() => 'valE');
+
+        const value: A|B|C|'valD'|'valE' = $if(false).thenDo(fnA)
+            .elseIf(true).thenDo(fnB)
+            .elseIf(true).thenDo(fnC)
+            .elseIf(false).thenDo(fnD)
+            .elseDo(fnE);
+
+        expect(value).toBe('valB');
+        expect(fnA).not.toBeCalled();
+        expect(fnB).toBeCalledTimes(1);
+        expect(fnC).not.toBeCalled();
+        expect(fnD).not.toBeCalled();
+        expect(fnE).not.toBeCalled();
+    });
+});
+
+describe("$if with mixed clauses", () => {
+    type A = 'valA';
+    type B = 'valB';
+    type C = 'valC';
+
+    let fnA: () => 'valA';
+    let fnB: () => 'valB';
+    let fnC: () => 'valC';
+
+    beforeEach(() => {
+        fnA = jest.fn(() => 'valA');
+        fnB = jest.fn(() => 'valB');
+        fnC = jest.fn(() => 'valC');
+    });
+
+    it('works on .thenDo()', () => {
+        const value: A | B = $if(true).then(fnA()).elseDo(fnB);
+
+        expect(value).toBe('valA');
+        expect(fnA).toBeCalledTimes(1);
+        expect(fnB).not.toBeCalled();
+    });
+
+
+    it('works on .elseDo()', () => {
+        const value: A | B = $if(false).then(fnA()).elseDo(fnB);
+
+        expect(value).toBe('valB');
+        expect(fnB).toBeCalledTimes(1);
+    });
+
+    it('works on .elseIf.thenDo()', () => {
+        const value: A | B | C = $if(false).thenDo(fnA).elseIf(true).thenDo(fnB).else(fnC());
+
+        expect(value).toBe('valB');
+        expect(fnA).not.toBeCalled();
+        expect(fnB).toBeCalledTimes(1);
+    });
+
+    it('works on .elseIf.elseDo()', () => {
+        const value: A | B | C = $if(false).thenDo(fnA).elseIf(false).then(fnB()).elseDo(fnC);
+
+        expect(value).toBe('valC');
+        expect(fnA).not.toBeCalled();
+        expect(fnC).toBeCalledTimes(1);
+    });
+
+    it(`doesn't bleed over`, () => {
+        const fnD: Unit<'valD'> = jest.fn(() => 'valD');
+        const fnE: Unit<'valE'> = jest.fn(() => 'valE');
+
+        const value: A|B|C|'valD'|'valE' = $if(false).then(fnA())
+            .elseIf(true).thenDo(fnB)
+            .elseIf(true).then(fnC())
+            .elseIf(true).thenDo(fnD)
+            .else(fnE());
+
+        expect(value).toBe('valB');
+        expect(fnB).toBeCalledTimes(1);
+        expect(fnD).not.toBeCalled();
     });
 });
