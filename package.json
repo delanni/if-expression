@@ -1,6 +1,6 @@
 {
   "name": "dolla-if",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "If-else statements to be used as expressions, for vegetarians, or otherwise",
   "keywords": [
     "if",
