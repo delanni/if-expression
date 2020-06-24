@@ -5,7 +5,8 @@ var ifExpression = function (condition) {
 };
 var makeIfStatement = function (cond) {
     return {
-        then: function (thenValue) { return makeThenStatement(cond, thenValue); }
+        then: function (thenValue) { return makeThenStatement(cond, thenValue); },
+        thenDo: function (thenArrow) { return makeThenDoStatement(cond, thenArrow); },
     };
 };
 var makeThenStatement = function (cond, thenValue) {
@@ -25,12 +26,49 @@ var makeThenStatement = function (cond, thenValue) {
             else {
                 return makeIfStatement(cond2);
             }
+        },
+        elseDo: function (elseArrow) {
+            if (cond) {
+                return thenValue;
+            }
+            else {
+                return elseArrow();
+            }
+        }
+    };
+};
+var makeThenDoStatement = function (cond, thenArrow) {
+    return {
+        else: function (elseValue) {
+            if (cond) {
+                return thenArrow();
+            }
+            else {
+                return elseValue;
+            }
+        },
+        elseIf: function (cond2) {
+            if (cond) {
+                return makeLoadedIfStatement(thenArrow());
+            }
+            else {
+                return makeIfStatement(cond2);
+            }
+        },
+        elseDo: function (elseArrow) {
+            if (cond) {
+                return thenArrow();
+            }
+            else {
+                return elseArrow();
+            }
         }
     };
 };
 var makeLoadedIfStatement = function (fixedValue) {
     return {
-        then: function (ignoredThenValue) { return makeLoadedThenStatement(fixedValue); }
+        then: function (ignoredThenValue) { return makeLoadedThenStatement(fixedValue); },
+        thenDo: function (ignoredThenValue) { return makeLoadedThenStatement(fixedValue); }
     };
 };
 var makeLoadedThenStatement = function (fixedValue) {
@@ -40,6 +78,9 @@ var makeLoadedThenStatement = function (fixedValue) {
         },
         elseIf: function (ignoredCond) {
             return makeLoadedIfStatement(fixedValue);
+        },
+        elseDo: function (ignoredElseArrow) {
+            return fixedValue;
         }
     };
 };
