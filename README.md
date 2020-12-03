@@ -46,7 +46,7 @@ You can also use it with unit functions, to short circuit execution of branches 
 const result = $if(false)
     .thenDo(() => computeEngine.computeValue())
     .elseIf(true).thenDo(() => computeEngine.computeSomethingElse())
-    .elseIf(Math.random > 0.5).then('bingo!')
+    .elseIf(Math.random() > 0.5).then('bingo!')
     .elseDo(computeEngine.getDefaultValue);
 ```
 In this above example, only one of the branches gets executed, so you don't need to worry about all the wasted calculation or unwanted side-effects.
