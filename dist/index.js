@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.$if = void 0;
 var ifExpression = function (condition) {
     return makeIfStatement(condition);
 };
