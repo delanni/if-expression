@@ -19,7 +19,8 @@
   "sideEffects": false,
   "scripts": {
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "ci": "npm run build && npm test"
   },
   "author": "Alex Szabo (delanni.alex@gmail.com)",
   "license": "MIT",
