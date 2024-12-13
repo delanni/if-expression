@@ -20,7 +20,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "ci": "npm run build && npm test"
+    "ci": "npm run build && npm test",
+    "publish": "npm publish"
   },
   "author": "Alex Szabo (delanni.alex@gmail.com)",
   "license": "MIT",
